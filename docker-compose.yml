@@ -2,10 +2,10 @@ version: "3"
 
 services:
 
-    server:
-        container_name: server
-        build: ./server
-        image: proj/server
+    nginx:
+        container_name: nginx
+        build: ./nginx
+        image: proj/nginx
         restart: always
         ports:
             - "80:80"
