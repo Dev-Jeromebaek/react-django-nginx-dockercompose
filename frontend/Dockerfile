@@ -1,4 +1,3 @@
-"frontend/Dockerfile" 21L, 314C                                                                                                                                                              4,43          All
 FROM node:latest
 
 # 작업 디렉토리 설정
