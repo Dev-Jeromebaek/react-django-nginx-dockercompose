@@ -1,7 +1,7 @@
 # 폴더구조
 
 ```
-└── cti/
+└── app/
     ├── frontend/
     │   ├── Dockerfile
     │   └── 
