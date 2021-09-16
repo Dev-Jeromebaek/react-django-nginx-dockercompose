@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+
+    server:
+        container_name: server
+        build: ./server
+        image: proj/server
+        restart: always
+        ports:
+            - "80:80"
+        volumes:
+            - ./frontend:/frontend
+            - ./backend:/srv/backend
+            - ./log:/var/log/nginx
+        depends_on:
+            - frontend
+
+    frontend:
+        container_name: frontend
+        build: ./frontend
+        image: proj/frontend
+        restart: always
+        environment:
+            - NODE_ENV=development
+        volumes:
+            - /frontend/node_modules
+            - ./frontend:/frontend
+        stdin_open: true
+        tty: true
+
+    backend:
+        container_name: backend
+        build: ./backend
+        image: proj/backend
+        restart: always
+        command: uwsgi --ini uwsgi.ini
+        volumes:
+            - ./backend:/srv/backend
+            - ./log:/var/log/uwsgi
