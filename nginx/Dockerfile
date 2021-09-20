@@ -3,6 +3,8 @@ FROM nginx:latest
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx-proxy.conf /etc/nginx/sites-available/
 
+RUN rm -rf /etc/nginx/conf.d/default.conf
+
 RUN mkdir -p /etc/nginx/sites-enabled/\
     && ln -s /etc/nginx/sites-available/nginx-proxy.conf /etc/nginx/sites-enabled/
 

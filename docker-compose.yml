@@ -5,36 +5,40 @@ services:
     nginx:
         container_name: nginx
         build: ./nginx
-        image: proj/nginx
+        image: test/nginx
         restart: always
         ports:
             - "80:80"
         volumes:
-            - ./frontend:/frontend
-            - ./backend:/srv/backend
             - ./log:/var/log/nginx
         depends_on:
+            - backend
             - frontend
+
+    backend:
+        container_name: backend
+        build: ./backend
+        image: test/backend
+        restart: always
+        ports:
+            - "8000:8000"
+        command: uwsgi --ini uwsgi.ini
+        volumes:
+            - ./backend:/backend
+            - ./log:/var/log/uwsgi
 
     frontend:
         container_name: frontend
         build: ./frontend
-        image: proj/frontend
+        image: test/frontend
         restart: always
+        expose:
+            - 3000
         environment:
             - NODE_ENV=development
+            - CHOKIDAR_USEPOLLING=true
         volumes:
             - /frontend/node_modules
             - ./frontend:/frontend
         stdin_open: true
         tty: true
-
-    backend:
-        container_name: backend
-        build: ./backend
-        image: proj/backend
-        restart: always
-        command: uwsgi --ini uwsgi.ini
-        volumes:
-            - ./backend:/srv/backend
-            - ./log:/var/log/uwsgi
