@@ -42,3 +42,17 @@ services:
             - ./frontend:/frontend
         stdin_open: true
         tty: true
+
+    db:
+        container_name: db
+        image: mysql:latest
+        restart: always
+        ports:
+            - "3306:3306"
+        env_file: .env
+        command:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+            - --lower_case_table_names=1
+        volumes:
+            - ./db/data:/var/lib/mysql
